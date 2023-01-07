@@ -18,24 +18,12 @@ fn main() {
         }
     }
 
-    let mut can_do_same: bool;
-    for i in 0..w {
-        can_do_same = false;
-        for j in 0..w {
-            if t_trans[i] == s_trans[j] {
-                let tmp1 = s_trans[i].to_vec();
-                let tmp2 = s_trans[j].to_vec();
-                s_trans[i] = tmp2;
-                s_trans[j] = tmp1;
-                can_do_same = true;
-                break;
-            }
-        }
-        if ! can_do_same {
-            println!("No");
-            return ();
-        }
-    }
+    s_trans.sort();
+    t_trans.sort();
 
-    println!("Yes");
+    if s_trans == t_trans {
+        println!("Yes");
+    } else {
+        println!("No");
+    }
 }
