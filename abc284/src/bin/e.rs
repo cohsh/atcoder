@@ -1,6 +1,5 @@
 use proconio::{input, fastout};
-use std::collections::VecDeque;
-use std::cmp;
+use std::process::exit;
 
 #[fastout]
 fn main() {
@@ -8,32 +7,32 @@ fn main() {
         n: usize, m: usize,
         a: [[usize; 2]; m],
     }
-    let mut graph = vec![vec![0; 0]; n+1];
+    let mut graph = vec![vec![0; 0]; n];
     for i in 0..m {
-        graph[a[i][0]].push(a[i][1]);
-        graph[a[i][1]].push(a[i][0]);
+        graph[a[i][0]-1].push(a[i][1]-1);
+        graph[a[i][1]-1].push(a[i][0]-1);
     }
 
-    let mut count = 0;
-    let mut visited = vec![false; n+1];
+    let mut count = 1;
+    let mut visited = vec![false; n];
 
-    let mut stack = VecDeque::new();
-    stack.push_back(1);
-    visited[1] = true;
+    dfs(0, &mut visited, &graph, &mut count);
+    println!("{}", count);
 
-    let mut path = vec![0; 0];
-    while let Some(u) = stack.pop_back() {
-        path.push(u);
+}
 
-        for &v in &graph[u] {
-            if !visited[v] {
-                stack.push_back(v);
-                visited[v] = true;
-            }
-        }
-        if path.len() > 0 && graph[path[path.len()-1]].len() == 1 {
-            count += 1;
-        }
+fn dfs(start: usize, visited: &mut Vec<bool>, graph: &Vec<Vec<usize>>, count: &mut usize) {
+    if *count >= 1000000 {
+        println!("1000000");
+        exit(0);
     }
-    println!("{}", cmp::min(count, 10_usize.pow(6)));
+    visited[start] = true;
+    for &next in &graph[start] {
+        if visited[next] {
+            continue;
+        }
+        *count += 1;
+        dfs(next, visited, graph, count);
+        visited[next] = false;
+    }
 }
