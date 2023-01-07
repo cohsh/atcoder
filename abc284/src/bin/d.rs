@@ -12,10 +12,25 @@ fn main() {
 }
 
 fn prime_factorization(n: usize) -> (usize, usize) {
-    let mut p = 2;
-    let mut q = 2;
-    while (p * p <= n) && (q * q <= n) {
-        if n / (p * p)
+    let mut i = 2;
+    let mut a = 2;
+    while i * i * i <= n {
+        if n % i == 0 {
+            a = i;
+            break;
+        }
+        i += 1;
+    }
+
+    let p: usize;
+    let q: usize;
+
+    if (n / a) % a == 0 {
+        p = a;
+        q = (n / a) / a;
+    } else {
+        p = ((n / a) as f64).sqrt() as usize;
+        q = a;
     }
     return (p, q);
 }
