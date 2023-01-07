@@ -3,28 +3,23 @@ use proconio::{input, fastout};
 #[fastout]
 fn main() {
     input!{k: usize}
-
-    let mut prime_factors = prime_factorization(k);
-
-    prime_factors.sort();
-    prime_factors.reverse();
-    let m = prime_factors[0];
-
-    println!("{}", m);
 }
 
-fn prime_factorization(k: usize) -> Vec<usize> {
-    let mut l = k;
+fn prime_factorization(k: usize) -> Vec<(usize, usize)> {
     let mut answer = Vec::new();
     let mut i = 2;
-    while i * i <= l {
-        if l % i == 0 {
-            answer.push(i);
+    let mut count: usize;
+    let mut l = k;
+    while i * i <= k {
+        count = 0;
+        while l % i == 0 {
             l /= i;
-            i = 2;
+            count += 1;
         }
-        i += 1;
+        if count != 0 {
+            answer.push((i, count));
+                i += 1;
+        }
     }
-    answer.push(l);
     return answer;
 }
