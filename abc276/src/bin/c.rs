@@ -1,14 +1,10 @@
 use proconio::{input, fastout};
-use itertools::Itertools;
+use itertools::*;
+use superslice::{self, Ext};
 
 #[fastout]
 fn main() {
-    input!{n: usize, p: [usize; n]}
-    let perms: Vec<Vec<usize>> = (1..=n).permutations(n).collect();
-    let result = perms.binary_search(&p);
-    if result.is_ok() {
-        let i: usize = result.unwrap();
-        let answer = perms[i-1].iter().map(|&x| x.to_string()).collect::<Vec<String>>().join(" ");
-        println!("{}", answer);
-    }
+    input!{n: usize, mut p: [usize; n]}
+    p.prev_permutation();
+    println!("{}", p.iter().join(" "));
 }
